@@ -24,7 +24,8 @@ AS_INCLUDES =
 C_INCLUDES =  \
 -Iapp/include  \
 -Icmsis/core/include  \
--Icmsis/device/include  
+-Icmsis/device/include  \
+-Ibsp/include 
 
 
 ######################################
@@ -34,7 +35,8 @@ C_INCLUDES =  \
 C_SOURCES = \
 app/src/main.c \
 app/src/stm32f4xx_it.c \
-cmsis/device/src/system_stm32f4xx.c 
+cmsis/device/src/system_stm32f4xx.c \
+bsp/src/sysclk.c 
 
 ASM_SOURCES =  \
 startup_stm32f401xe.s
@@ -138,7 +140,7 @@ $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(SZ) $@
 
-$(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
+$(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR) makefile
 	$(HEX) $< $@
 	
 $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
